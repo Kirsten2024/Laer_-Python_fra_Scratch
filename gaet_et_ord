@@ -1,0 +1,44 @@
+import random
+
+# Mangler lige lidt hvis man gætter forkert. skal undgå det med at miste liv.
+
+liv = 9
+ord = ["pizza", "tomat", "farve", "papir", "kasse"]  # ord med 5 bogstaver
+hemmeligt_ord = random.choice(ord)  # Vælg et tilfældigt ord fra listen
+løsning = list("?????")  # Tegnene er nu gemt som en liste under variablen tip
+hjerte = "💟"  # Vælg evt. et andet symbol fra hjemmesiden.
+det_rigtige_ord = False  # Variablen skal bruges til at undersøge, om spilleren har gættet rigtigt
+
+def opdater_løsning(valgt_bogstav, hemmeligt_ord, løsning):
+    index = 0  # Vi starter med det første bogstav i ordet
+    while index < len(hemmeligt_ord):  # Så længe at der er flere bogstaver i ordet, skal løkken køre
+        if valgt_bogstav == hemmeligt_ord[index]:  # Undersøger om det valgte bogstav er i ordet
+            løsning[index] = valgt_bogstav
+        index += 1  # Gå videre til næste bogstav
+
+def spil():
+    global liv, det_rigtige_ord, løsning  # Brug globale variabler i funktionen
+    while liv > 0:  # Spillet fortsætter, indtil der er 0 liv tilbage
+        
+        print(løsning)
+        print("Liv tilbage: " + hjerte * liv)
+        gaet = input("Gæt et bogstav eller hele ordet: ")
+        
+        if gaet == hemmeligt_ord:
+            det_rigtige_ord = True
+            break  # Stop løkken, fordi ordet er gættet
+
+        if gaet in hemmeligt_ord:
+            opdater_løsning(gaet, hemmeligt_ord, løsning)
+        else:
+            print("Desværre. Det var forkert! Du mister et liv.")
+            liv -= 1  # Træk et liv fra spilleren
+
+    # Tjek om spilleren vandt eller tabte
+    if det_rigtige_ord == True:
+        print("Du vandt! Det hemmelige ord var: " + hemmeligt_ord)
+    else:
+        print("Desværre. Du tabte. Det hemmelige ord var " + hemmeligt_ord)
+
+# Kør spillet
+spil()
